@@ -11,18 +11,22 @@ import { TableListOfPokemons } from "../TableListOfPokemons";
 export function Master () {
 
     const [pokemonsList, setPokemonsList] = useState(pokemons)
+    const [loading, setLoading] = useState(false);
 
     return (
-        <div>
-            <Header />
-            <SearchBar />
-            <AdvancedSearch 
-                pokemons={pokemons}
-                setPokemonsList={setPokemonsList}/>
-            <TableListOfPokemons
-                pokemonsList={pokemonsList} />
-            <Outlet />
-            <Footer />
-        </div>
-    )
+      <div>
+        <Header />
+        <SearchBar pokemons={pokemons} setPokemonsList={setPokemonsList} setLoading={setLoading}/>
+        <AdvancedSearch pokemons={pokemons} setPokemonsList={setPokemonsList} />
+
+        {loading ? (
+          <span className="loading loading-ring loading-lg"></span>
+        ) : (
+          <TableListOfPokemons pokemonsList={pokemonsList} />
+        )}
+
+        <Outlet />
+        <Footer />
+      </div>
+    );
 }

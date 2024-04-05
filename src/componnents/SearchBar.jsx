@@ -1,23 +1,36 @@
 import { useState } from "react";
 
-export function SearchBar() {
-  
+export function SearchBar({ pokemons, setPokemonsList, setLoading }) {
+
   const [searchInput, setSearchInput] = useState("");
-  const handleSubmit = (e) => {
-    console.log(searchInput);
-    // navigation vers l id du pokemon ...
-    e.preventDefault();
+
+
+  const handleChange = (e) => {
+    const inputValue = e.target.value
+    setSearchInput(inputValue)
+    
+    if (inputValue == '') {
+      setLoading(true)
+      setTimeout(() => {
+        setPokemonsList(pokemons)
+        setLoading(false)
+      }, 1000)
+    } else {
+      var pokemonData = pokemons.filter(pokemon => pokemon.name.fr.toLowerCase().startsWith(e.target.value.toLowerCase()))
+      setPokemonsList(pokemonData)
+      console.log(pokemonData)
+    }
   };
 
   return (
-    <form method="post" onSubmit={handleSubmit}>
+    // <form method="post" onSubmit={handleSubmit}>
       <label className="input input-bordered flex items-center gap-2 mx-20">
         <input
           type="text"
           className="grow"
           placeholder="Entrez le nom d'un pokemon ..."
           value={searchInput}
-          onChange={(e) => setSearchInput(e.target.value)}
+          onChange={handleChange}
         />
         <svg
           xmlns="http://www.w3.org/2000/svg"
@@ -32,6 +45,6 @@ export function SearchBar() {
           />
         </svg>
       </label>
-    </form>
+    // </form>
   );
 }

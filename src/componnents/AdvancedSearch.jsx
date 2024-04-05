@@ -1,84 +1,90 @@
 import { useState } from "react";
 import types from "../database/types";
-// import pokemons from "../database/pokemon";
 
 export function AdvancedSearch({ pokemons, setPokemonsList }) {
-
   const [heightValue, setHeightValue] = useState(0);
   const [weightValue, setWeightValue] = useState(0);
   const [handleGeneration, setHandleGeneration] = useState(false);
-  const [checkboxTypesValue, setCheckboxTypesValue] = useState([])
+  const [checkboxTypesValue, setCheckboxTypesValue] = useState([]);
 
   /**
-   * Ajouter/Retirer les types sélectionnés
-   * @param {*} e 
+   * Add/Remove selected types
+   * @param {*} e
    */
   const handleCheckbox = (e) => {
-
-    const typeId = e.target.id // le nom du type
-    const checked = e.target.checked
+    const typeId = e.target.id; // the name of type
+    const checked = e.target.checked;
 
     if (checked) {
       if (!checkboxTypesValue.includes(typeId)) {
-        setCheckboxTypesValue((items) => [...items, typeId])
+        setCheckboxTypesValue((items) => [...items, typeId]);
       }
     } else {
-      setCheckboxTypesValue((items) => items.filter((item) => item !== typeId))
+      setCheckboxTypesValue((items) => items.filter((item) => item !== typeId));
     }
-  }
+  };
 
   /**
-   * A la soumission du formulaire du filtre
-   * @param {*} e 
+   * Submit form advanced filter
+   * @param {*} e
    */
   const handleSubmit = (e) => {
-
     let formData = new FormData(e.target);
-    formData.append("types", JSON.stringify(checkboxTypesValue))
-    console.log(formData)
+    formData.append("types", JSON.stringify(checkboxTypesValue));
+    // console.log(formData)
 
-    // informations des inputs du filtre
+    // Inputs details
     let filterData = {
-      selectedTypes: JSON.parse(formData.get('types')),
-      height: parseFloat(formData.get('height')),
-      weight: parseFloat(formData.get('weight')),
-      generation: (formData.get('generation') == null) ? '' : formData.get('generation').slice(-1)
-    }
+      selectedTypes: JSON.parse(formData.get("types")),
+      height: parseFloat(formData.get("height")),
+      weight: parseFloat(formData.get("weight")),
+      generation:
+        formData.get("generation") == null
+          ? ""
+          : formData.get("generation").slice(-1),
+    };
 
+    // filter => new list of pokemons
     var newPokemonList = pokemons.filter((pokemon) => {
-
-      if (filterData.generation !== '') {
+      if (filterData.generation !== "") {
         if (parseInt(filterData.generation) !== pokemon.generation) {
-          return false
+          return false;
         }
       }
 
-      const height = pokemon.height ? parseFloat(pokemon.height.slice(0, -2)) : 0
-      const weight = pokemon.weight ? parseFloat(pokemon.weight.slice(0, -3)) : 0
-      const types = pokemon.types !== null ? pokemon.types.map(type => type.name) : []
+      const height = pokemon.height
+        ? parseFloat(pokemon.height.slice(0, -2))
+        : 0;
+      const weight = pokemon.weight
+        ? parseFloat(pokemon.weight.slice(0, -3))
+        : 0;
+      const types =
+        pokemon.types !== null ? pokemon.types.map((type) => type.name) : [];
 
-      return height >= filterData.height && 
-             weight >= filterData.weight &&
-             filterData.selectedTypes.every(type => types.includes(type))
+      return (
+        height >= filterData.height &&
+        weight >= filterData.weight &&
+        filterData.selectedTypes.every((type) => types.includes(type))
+      );
     });
 
-    // le tableau de pokemon renvoyé 
+    // save the new list
     setPokemonsList(newPokemonList);
-    console.log(newPokemonList);
+    // console.log(newPokemonList)
 
     e.preventDefault();
   };
 
   /**
-   * Réinitialisation du filtre par défaut
-   * @param {*} e 
+   * Reset filter
+   * @param {*} e
    */
   const resetFilter = (e) => {
-    setHeightValue(0)
-    setWeightValue(0)
-    setCheckboxTypesValue([])
-    setHandleGeneration(false)
-  }
+    setHeightValue(0);
+    setWeightValue(0);
+    setCheckboxTypesValue([]);
+    setHandleGeneration(false);
+  };
 
   return (
     <form onSubmit={handleSubmit} method="post">
@@ -224,7 +230,11 @@ export function AdvancedSearch({ pokemons, setPokemonsList }) {
               <button type="submit" className="btn btn-outline btn-primary">
                 Rechercher
               </button>
-              <button type="button" onClick={resetFilter} className="btn btn-outline btn-secondary">
+              <button
+                type="button"
+                onClick={resetFilter}
+                className="btn btn-outline btn-secondary"
+              >
                 Réinitialiser
               </button>
             </div>
