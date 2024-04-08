@@ -1,3 +1,5 @@
+import { NavLink } from 'react-router-dom';
+
 export function TableListOfPokemons({ pokemonsList }) {
   return (
     <div className="overflow-x-auto">
@@ -45,7 +47,9 @@ export function TableListOfPokemons({ pokemonsList }) {
               </td>
               <td>{pokemon.generation}</td>
               <th>
-                <button className="btn btn-ghost btn-xs">voir fiche</button>
+                <NavLink to={"/"+pokemon.pokedex_id}>
+                  <button className="btn btn-ghost btn-xs">voir fiche</button>
+                </NavLink>
               </th>
             </tr>
           ))}

@@ -1,5 +1,9 @@
 import { NavLink, createBrowserRouter, useRouteError } from "react-router-dom";
 import { Master } from "../componnents/layouts/Master";
+import { Main } from "../componnents/pages/Main";
+import { PokemonDetail } from "../componnents/pages/PokemonDetail";
+
+import pokemons from "../database/pokemon";
 
 const router = createBrowserRouter([
   {
@@ -8,8 +12,12 @@ const router = createBrowserRouter([
     errorElement: <ErrorPage />,
     children: [
       {
-        path: "route1",
-        element: <div>Route 1</div>,
+        path: "/",
+        element: <Main pokemons={pokemons}/>,
+      },
+      {
+        path: "/:id",
+        element: <PokemonDetail pokemons={pokemons}/>,
       },
     ],
   },

@@ -18,7 +18,6 @@ export function SearchBar({ pokemons, setPokemonsList, setLoading }) {
     } else {
       var pokemonData = pokemons.filter(pokemon => pokemon.name.fr.toLowerCase().startsWith(e.target.value.toLowerCase()))
       setPokemonsList(pokemonData)
-      console.log(pokemonData)
     }
   };
 

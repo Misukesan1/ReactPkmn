@@ -16,14 +16,14 @@ export function Master () {
     return (
       <div>
         <Header />
-        <SearchBar pokemons={pokemons} setPokemonsList={setPokemonsList} setLoading={setLoading}/>
-        <AdvancedSearch pokemons={pokemons} setPokemonsList={setPokemonsList} />
+        {/* <SearchBar pokemons={pokemons} setPokemonsList={setPokemonsList} setLoading={setLoading} /> 
+        <AdvancedSearch pokemons={pokemons} setPokemonsList={setPokemonsList} setLoading={setLoading} />
 
         {loading ? (
           <span className="loading loading-ring loading-lg"></span>
         ) : (
           <TableListOfPokemons pokemonsList={pokemonsList} />
-        )}
+        )} */}
 
         <Outlet />
         <Footer />

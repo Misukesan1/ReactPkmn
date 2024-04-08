@@ -1,7 +1,7 @@
 import { useState } from "react";
 import types from "../database/types";
 
-export function AdvancedSearch({ pokemons, setPokemonsList }) {
+export function AdvancedSearch({ pokemons, setPokemonsList, setLoading }) {
   const [heightValue, setHeightValue] = useState(0);
   const [weightValue, setWeightValue] = useState(0);
   const [handleGeneration, setHandleGeneration] = useState(false);
@@ -84,6 +84,11 @@ export function AdvancedSearch({ pokemons, setPokemonsList }) {
     setWeightValue(0);
     setCheckboxTypesValue([]);
     setHandleGeneration(false);
+
+    // reset de state of checkbox types
+    const checkboxState = document.getElementsByClassName('checkbox type');
+    for (let i=0;i<checkboxState.length;i++) 
+      checkboxState[i].checked = false;
   };
 
   return (
@@ -107,7 +112,7 @@ export function AdvancedSearch({ pokemons, setPokemonsList }) {
                       id={e.name.fr}
                       name="type"
                       type="checkbox"
-                      className="checkbox checkbox-sm mx-3"
+                      className="checkbox type checkbox-sm mx-3"
                       onChange={handleCheckbox}
                     />
                     <div className="flex items-center">

@@ -1,6 +1,8 @@
+import { NavLink } from "react-router-dom"
+
 export function Header() {
   return (
-    <div className="navbar bg-base-100">
+    <div className="navbar bg-base-200">
       <div className="navbar-start">
         <div className="dropdown">
           <div tabIndex={0} role="button" className="btn btn-ghost btn-circle">
@@ -14,7 +16,9 @@ export function Header() {
         </div>
       </div>
       <div className="navbar-center">
-        <a className="btn btn-ghost text-xl">Pokemon React</a>
+        <NavLink to="/">
+          <a className="btn btn-ghost text-xl">Pokemon React</a>
+        </NavLink>
       </div>
       <div className="navbar-end">
 
