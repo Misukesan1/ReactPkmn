@@ -7,6 +7,7 @@ export function PokemonDetail ({pokemons}) {
     const pokemonSelect = pokemons.filter(pokemon => pokemon.pokedex_id == id)
     console.log(pokemonSelect)
 
+
     function ifEvolutions (pokemonSelect) {
         if (!pokemonSelect.evolution) {
             return false;
@@ -43,7 +44,9 @@ export function PokemonDetail ({pokemons}) {
         }
     }
     function if2Evolution (pokemonSelect) {
-        if (pokemonSelect.evolution.pre && pokemonSelect.evolution.pre.length >= 1) {
+
+        // if the pokemon have 2 evolutions only :
+        if (!pokemonSelect.evolution.next && pokemonSelect.evolution.pre.length == 1) {
             return (
                 <NavLink to={"/"+pokemonSelect.pokedex_id}>
                     <div className="avatar grid grid-rows flex justify-center items-center">
@@ -54,21 +57,64 @@ export function PokemonDetail ({pokemons}) {
                     </div>
                 </NavLink>
             )
-        } else if (pokemonSelect.evolution.next && pokemonSelect.evolution.next.length >= 1) {
+        }
+        else if (!pokemonSelect.evolution.pre && pokemonSelect.evolution.next.length == 1) {
 
-            const nextEvolution = pokemons.filter(pokemon => pokemon.pokedex_id == pokemonSelect.evolution.next[0].pokedex_id)
-
+            const pokemonDetail = pokemons.filter(pokemon => pokemon.pokedex_id == pokemonSelect.evolution.next[0].pokedex_id)
+        
             return (
-                <NavLink to={"/"+nextEvolution[0].pokedex_id}>
+                <NavLink to={"/"+pokemonDetail[0].pokedex_id}>
                     <div className="avatar grid grid-rows flex justify-center items-center">
                         <div className="w-40 rounded-full">
-                            <img src={nextEvolution[0].sprites.regular} />
+                            <img src={pokemonDetail[0].sprites.regular} />
                         </div>
-                        <h4 className="text-center">{nextEvolution[0].name.fr}</h4>
+                        <h4 className="text-center">{pokemonDetail[0].name.fr}</h4>
                     </div>
                 </NavLink>
             )
+        }
+        // else the pokemon have 3 evolutions
+        else if (!pokemonSelect.evolution.next && pokemonSelect.evolution.pre.length == 2) {
 
+            const pokemonDisplay = pokemons.filter(pokemon => pokemon.pokedex_id == pokemonSelect.evolution.pre[1].pokedex_id)
+
+            return (
+                <NavLink to={"/"+pokemonDisplay[0].pokedex_id}>
+                    <div className="avatar grid grid-rows flex justify-center items-center">
+                        <div className="w-40 rounded-full">
+                            <img src={pokemonDisplay[0].sprites.regular} />
+                        </div>
+                        <h4 className="text-center">{pokemonDisplay[0].name.fr}</h4>
+                    </div>
+                </NavLink>
+            )
+        }
+        else if (!pokemonSelect.evolution.pre && pokemonSelect.evolution.next.length == 2) {
+
+            const pokemonDisplay = pokemons.filter(pokemon => pokemon.pokedex_id == pokemonSelect.evolution.next[0].pokedex_id)
+
+            return (
+                <NavLink to={"/"+pokemonDisplay[0].pokedex_id}>
+                    <div className="avatar grid grid-rows flex justify-center items-center">
+                        <div className="w-40 rounded-full">
+                            <img src={pokemonDisplay[0].sprites.regular} />
+                        </div>
+                        <h4 className="text-center">{pokemonDisplay[0].name.fr}</h4>
+                    </div>
+                </NavLink>
+            )
+        }
+        else if (pokemonSelect.evolution.pre.length == 1 && pokemonSelect.evolution.next.length == 1) {
+            return (
+                <NavLink to={"/"+pokemonSelect.pokedex_id}>
+                    <div className="avatar grid grid-rows flex justify-center items-center">
+                        <div className="w-40 rounded-full">
+                            <img src={pokemonSelect.sprites.regular} />
+                        </div>
+                        <h4 className="text-center">{pokemonSelect.name.fr}</h4>
+                    </div>
+                </NavLink>
+            )
         }
     }
     function ifNextEvolution (pokemonSelect) {
@@ -166,8 +212,8 @@ export function PokemonDetail ({pokemons}) {
             </div>
             {/* Evolutions */}
             {ifEvolutions(pokemonSelect[0]) &&
+
                 <div className="grid grid-cols-3 min-w-80 flex justify-center items-center card bg-base-200 shadow-xl p-5 m-8 mt-6">
-        
                 {/* Evolution 1 */}
                 {ifPreEvolution(pokemonSelect[0])}
 
@@ -176,24 +222,8 @@ export function PokemonDetail ({pokemons}) {
 
                 {/* Evolution 3 */}
                 {ifNextEvolution(pokemonSelect[0])}
-
-                {/* {pokemonSelect[0].evolution.pre ? (
-                    <div className="avatar grid grid-rows flex justify-center items-center">
-                        <div className="w-40 rounded-full">
-                            <img src={pokemonSelect[0].sprites.regular} />
-                        </div>
-                        <h4 className="text-center">pkmn base</h4>
-                    </div>
-                ) : (
-                    <div className="avatar grid grid-rows flex justify-center items-center">
-                        <div className="w-40 rounded-full">
-                            <img src={pokemonSelect[0].sprites.regular} />
-                        </div>
-                        <h4 className="text-center">{pokemonSelect[0].name.fr}</h4>
-                    </div>
-                )} */}
-
                 </div>
+                
             }
 
         </div>
